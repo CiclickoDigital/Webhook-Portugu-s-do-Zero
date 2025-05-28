@@ -4,6 +4,11 @@ const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+  res.send('Servidor ativo');
+});
 
 app.post('/webhook/hotmart', async (req, res) => {
   const { email, name, product_name, status } = req.body;
@@ -20,7 +25,7 @@ app.post('/webhook/hotmart', async (req, res) => {
         }
       }, {
         headers: {
-          Authorization: `Bearer SEU_ACCESS_TOKEN_RD`,
+          Authorization: `Bearer ${process.env.RDSTATION_ACCESS_TOKEN}`,
           'Content-Type': 'application/json'
         }
       });
